@@ -12,6 +12,9 @@
                     You're logged in!
                     ようこそ！
                 </div>
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <a href="https://www.dd-mona.com/horikuti-hidetaka-profile/#toc3">堀口さん</a>
+                </div>
             </div>
         </div>
     </div>

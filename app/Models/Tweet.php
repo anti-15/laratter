@@ -19,5 +19,10 @@ class Tweet extends Model
   {
     return self::orderBy('updated_at', 'desc')->get();
   }
+
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 }
 

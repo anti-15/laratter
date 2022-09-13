@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\Tweet;
+use Auth;
+
+use App\Models\User;
 
 
 class TweetController extends Controller
@@ -22,7 +25,6 @@ class TweetController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -43,6 +45,7 @@ class TweetController extends Controller
     'tweet' => 'required | max:191',
     'description' => 'required',
   ]);
+
   // バリデーション:エラー
   if ($validator->fails()) {
     return redirect()
@@ -52,11 +55,12 @@ class TweetController extends Controller
   }
   // create()は最初から用意されている関数
   // 戻り値は挿入されたレコードの情報
-  $result = Tweet::create($request->all());
+    $data = $request->merge(['user_id' => Auth::user()->id])->all();
+    $result = Tweet::create($data);
   // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
   return redirect()->route('tweet.index');
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -68,6 +72,7 @@ class TweetController extends Controller
         $tweet = Tweet::find($id);
         return view('tweet.show', compact('tweet'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -118,4 +123,27 @@ class TweetController extends Controller
         $result = Tweet::find($id)->delete();
         return redirect()->route('tweet.index');
     }
+
+    /**
+     * オリジナル
+     * Show the form for creating a new resource.
+     * @return \Illuminate\Http\Response
+     */
+    public function sum()
+    {
+        return view('tweet.sum');
+    }
+
+    public function mydata()
+  {
+    // Userモデルに定義したリレーションを使用してデータを取得する．
+    $tweets = User::query()
+      ->find(Auth::user()->id)
+      ->userTweets()
+      ->orderBy('created_at','desc')
+      ->get();
+    return view('tweet.index', compact('tweets'));
+  }
+
+
 }

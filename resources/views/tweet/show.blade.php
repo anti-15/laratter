@@ -26,9 +26,9 @@
             </div>
 
             <div class="flex flex-col mb-4">
-              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">Created_at</p>
-              <p class="py-2 px-3 text-grey-darkest" id="created_at">
-                {{$tweet->created_at}}
+              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">ID</p>
+              <p class="py-2 px-3 text-grey-darkest" id="id">
+                {{$tweet->id}}
               </p>
             </div>
 
