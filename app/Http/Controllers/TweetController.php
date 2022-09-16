@@ -144,6 +144,17 @@ class TweetController extends Controller
       ->get();
     return view('tweet.index', compact('tweets'));
   }
+  
+
+
+    /*
+    public function dash()
+  {
+    // Userモデルに定義したリレーションを使用してデータを取得する．
+    $tweets = 
+    return view('dashboard', compact('tweets'));
+  }
+  */
 
 
 }
