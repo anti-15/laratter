@@ -28,7 +28,8 @@
             <div class="flex flex-col mb-4">
               <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">ID</p>
               <p class="py-2 px-3 text-grey-darkest" id="id">
-                {{$tweet->id}}
+                {{$tweet->id}}<br>
+                {{$tweet->user_id}}
               </p>
             </div>
 
