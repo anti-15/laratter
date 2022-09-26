@@ -51,10 +51,18 @@
                     </form>
                     @endif
                   </div>
-                  <a href="{{ route('tweet.show',$tweet->id) }}">
-                    
-                    <h3 class="text-left font-bold text-lg text-grey-dark">{{$tweet->tweet}}</h3>
-                  </a>
+
+                  <!--編集したツイートは”編集済み”と表示したい-->
+                  <div class="flex">
+                    <a href="{{ route('tweet.show',$tweet->id) }}">
+                      <h3 class="text-left font-bold text-lg text-grey-dark">{{$tweet->tweet}}</h3>
+                    </a>
+                  @if($tweet->updated_at != $tweet->created_at)
+                    <p class="text-sm pt-1">　(編集済み)</p>
+                  @endif
+                  </div>
+
+                  
                   <div class="flex">
 
                    @if($tweet->users()->where('user_id', Auth::id())->exists())
@@ -81,6 +89,14 @@
                     </form>
                     @endif
 
+                    <!--コメントボタン-->
+                    <form action="{{ route('comment.create',$tweet->id) }}" method="GET" class="text-left">
+                      @csrf
+                      <button type="submit" class="mr-2 ml-2 text-sm hover:bg-gray-200 hover:shadow-none text-white py-1 px-2 focus:outline-none focus:shadow-outline">
+                       <svg class="h-6 w-6 text-gray-500"  width="24" height="24" viewBox="0 0 24 24" stroke="black" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />  <line x1="12" y1="12" x2="12" y2="12.01" />  <line x1="8" y1="12" x2="8" y2="12.01" />  <line x1="16" y1="12" x2="16" y2="12.01" /></svg>
+                      </button>
+                    </form>
+
                     @if ($tweet->user_id === Auth::user()->id)
                     <!-- 更新ボタン -->
                     <form action="{{ route('tweet.edit',$tweet->id) }}" method="GET" class="text-left">
@@ -103,7 +119,10 @@
                       </button>
                     </form>
                     @endif
+                    
                   </div>
+
+                  
                 </td>
               </tr>
               @endforeach
