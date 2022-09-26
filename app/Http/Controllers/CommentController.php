@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Validator;
 use App\Models\Tweet;
+use App\Models\User;
 use Auth;
+use App\Models\Comment;
 
 
-class FavoriteController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,9 +27,10 @@ class FavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Tweet $tweet)
+    {   
+
+        return view('comment.create',compact('tweet'));
     }
 
     /**
@@ -36,12 +39,32 @@ class FavoriteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Tweet $tweet)
+    public function store(Request $request, $id)
     {
+    $validator = Validator::make($request->all(), [
+    'comment' => 'required | max:191',
+  ]);
+
+  
+
+  
+  // バリデーション:エラー
+  if ($validator->fails()) {
+    return redirect()
+      ->route('comment.create')
+      ->withInput()
+      ->withErrors($validator);
+  }
+  // create()は最初から用意されている関数
+  // 戻り値は挿入されたレコードの情報
+  
+    $data = $request->merge(['user_id' => Auth::user()->id, 'tweet_id' => $id])->all();
     
-    ddd($tweet);
-    $tweet->users()->attach(Auth::id());
-    return redirect()->route('tweet.index');
+    $tweet = Tweet::find($id);
+    $result = Comment::create($data);
+  // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
+
+  return redirect()->route('tweet.index');
     }
 
     /**
@@ -51,8 +74,9 @@ class FavoriteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $aaa = Tweet::find($id);
+        ddd($aaa);
     }
 
     /**
@@ -84,9 +108,8 @@ class FavoriteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tweet $tweet)
+    public function destroy($id)
     {
-    $tweet->users()->detach(Auth::id());
-    return redirect()->route('tweet.index');
+        //
     }
 }

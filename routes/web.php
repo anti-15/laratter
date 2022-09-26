@@ -5,6 +5,7 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CommentController;
 
 
 use App\Models\User;
@@ -20,6 +21,9 @@ use App\Models\User;
 |
 */
 Route::group(['middleware' => 'auth'], function () {
+  //コメント
+  Route::get('/comment/{tweet}/create', [CommentController::class, 'create'])->name('comment.create');
+  Route::post('/comment/{tweet}/comment', [CommentController::class, 'store'])->name('comment.store');
   //検索
   Route::get('/tweet/search/input', [SearchController::class, 'create'])->name('search.input');
   
@@ -36,7 +40,11 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('tweet/{tweet}/unfavorites', [FavoriteController::class, 'destroy'])->name('unfavorites');
   
   Route::get('/tweet/mypage', [TweetController::class, 'mydata'])->name('tweet.mypage');
+  
   Route::resource('tweet', TweetController::class);
+  //コメント
+  
+
   Route::get('/dashboard/sum/', 'App\Http\Controllers\TweetController@sum')->name('tweet.sum');
 });
 

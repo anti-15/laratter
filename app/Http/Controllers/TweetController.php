@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\Tweet;
-use Auth;
-
 use App\Models\User;
+use Auth;
+use App\Models\Comment;
+
 
 
 class TweetController extends Controller
@@ -28,7 +29,7 @@ class TweetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    { 
         return view('tweet.create');
     }
 
@@ -45,6 +46,7 @@ class TweetController extends Controller
     'tweet' => 'required | max:191',
     'description' => 'required',
   ]);
+  
 
   // バリデーション:エラー
   if ($validator->fails()) {
@@ -57,6 +59,7 @@ class TweetController extends Controller
   // 戻り値は挿入されたレコードの情報
     $data = $request->merge(['user_id' => Auth::user()->id])->all();
     $result = Tweet::create($data);
+
   // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
   return redirect()->route('tweet.index');
     }
@@ -81,7 +84,8 @@ class TweetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        //ddd($id);
         $tweet = Tweet::find($id);
         return view('tweet.edit', compact('tweet'));
     }
