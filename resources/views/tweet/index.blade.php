@@ -55,7 +55,7 @@
                   <!--編集したツイートは”編集済み”と表示したい-->
                   <div class="flex">
                     <a href="{{ route('tweet.show',$tweet->id) }}">
-                      <h3 class="text-left font-bold text-lg text-grey-dark">{{$tweet->tweet}}</h3>
+                      <h3 class="mt-6 mb-6 text-left font-bold text-lg text-grey-dark">{{$tweet->tweet}}</h3>
                     </a>
                   @if($tweet->updated_at != $tweet->created_at)
                     <p class="text-sm pt-1">　(編集済み)</p>
