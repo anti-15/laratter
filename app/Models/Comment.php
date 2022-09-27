@@ -22,6 +22,20 @@ class Comment extends Model
     return $this->belongsTo(Tweet::class);
   }
 
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 
+  public static function getAllOrderByUpdated_at()
+  {
+    return self::orderBy('updated_at', 'DESC')->get();
+  }
+
+  public static function getCommentList($id)
+  {
+    ddd($id);
+    return self::orderBy('updated_at', 'DESC')->get();
+  }
 
 }

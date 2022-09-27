@@ -24,6 +24,10 @@ Route::group(['middleware' => 'auth'], function () {
   //コメント
   Route::get('/comment/{tweet}/create', [CommentController::class, 'create'])->name('comment.create');
   Route::post('/comment/{tweet}/comment', [CommentController::class, 'store'])->name('comment.store');
+  Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
+  Route::get('/comment/{tweet}/list', [CommentController::class, 'list'])->name('comment.list');
+  
+  //Route::get('/comment/{comment}', [CommentController::class, 'show'])->name('comment.show');
   //検索
   Route::get('/tweet/search/input', [SearchController::class, 'create'])->name('search.input');
   

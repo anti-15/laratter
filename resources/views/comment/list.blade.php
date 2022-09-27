@@ -1,3 +1,7 @@
+{{$tweet}}
+
+
+
 <!-- resources/views/tweet/show.blade.php -->
 
 <x-app-layout>
@@ -14,22 +18,22 @@
           <div class="mb-6">
             <div class="flex flex-col mb-4">
               <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">Tweet</p>
-              <p class="py-2 px-3 text-grey-darkest" id="tweet">
-                {{$tweet->tweet}}
+              <p class="py-2 px-3 text-grey-darkest text-lg font-bold" id="tweet">
+                {{$tweet}}
               </p>
             </div>
+
             <div class="flex flex-col mb-4">
-              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">Description</p>
+              <p class="mb-2 uppercase font-bold text-lg text-grey-darkest">Comment</p>
               <p class="py-2 px-3 text-grey-darkest" id="description">
-                {{$tweet->description}}
+            @foreach($lists as $list)
+
+            {{$list->comment}}<br>
+
+            @endforeach
+
               </p>
             </div>
-
-            
-
-            
-
-
 
             
             <a href="{{ route('tweet.index') }}" class="block text-center w-full py-3 mt-6 font-medium tracking-widest text-white uppercase bg-black shadow-lg focus:outline-none hover:bg-gray-900 hover:shadow-none">
