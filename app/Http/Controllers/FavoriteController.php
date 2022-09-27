@@ -39,7 +39,7 @@ class FavoriteController extends Controller
     public function store(Tweet $tweet)
     {
     
-    ddd($tweet);
+    
     $tweet->users()->attach(Auth::id());
     return redirect()->route('tweet.index');
     }

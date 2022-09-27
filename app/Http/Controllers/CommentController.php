@@ -18,8 +18,11 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {      
+        
+        $comments = Comment::getAllOrderByUpdated_at();
+        //ddd($comments);
+        return view('comment.index',compact('comments'));
     }
 
     /**
@@ -60,11 +63,17 @@ class CommentController extends Controller
   
     $data = $request->merge(['user_id' => Auth::user()->id, 'tweet_id' => $id])->all();
     
-    $tweet = Tweet::find($id);
+    $tweets = Tweet::find($id);
     $result = Comment::create($data);
+    $comments = $result;
+    //ddd($comments);
+    
   // ルーティング「todo.index」にリクエスト送信（一覧ページに移動）
+    //$comments = Comment::getAllOrderByUpdated_at();
+    //ddd($comments);
+    //return view('tweet.show', compact('tweets'));
 
-  return redirect()->route('tweet.index');
+    return redirect()->route('comment.index');
     }
 
     /**
@@ -75,8 +84,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {   
-        $aaa = Tweet::find($id);
-        ddd($aaa);
+        //
     }
 
     /**
@@ -112,4 +120,21 @@ class CommentController extends Controller
     {
         //
     }
+
+    public function list($id)
+    {
+
+      $tweet = Tweet::find($id)->tweet;
+    
+      $lists = Tweet::query()
+      ->find($id)
+      ->comments()
+      ->orderBy('created_at','desc')
+      ->get();
+    
+    //$lists = Comment::getCommentList($id);
+        
+    return view('comment.list',compact('lists', 'tweet'));
+    }
+
 }
